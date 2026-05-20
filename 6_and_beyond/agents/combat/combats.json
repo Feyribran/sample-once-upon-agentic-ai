@@ -1,0 +1,324 @@
+{
+    "_default": {
+        "1": {
+            "combat_id": "5c23bf2b-fcbe-4f9c-9a0e-a03b8b04e027",
+            "name": "New Combat Encounter",
+            "round": 1,
+            "turn_index": 1,
+            "status": "ended",
+            "participants": [
+                {
+                    "participant_id": "npc-gobelin-faible-001",
+                    "name": "Gobelin malingre",
+                    "type": "npc",
+                    "armor_class": 13,
+                    "max_hp": 7,
+                    "current_hp": 0,
+                    "initiative": 15,
+                    "status_effects": []
+                },
+                {
+                    "participant_id": "245b8c0d-78fb-447f-8213-580d1b0a0be9",
+                    "name": "Thorin Ironbeard",
+                    "type": "player",
+                    "armor_class": 16,
+                    "max_hp": 12,
+                    "current_hp": 12,
+                    "initiative": 9,
+                    "status_effects": []
+                }
+            ],
+            "event_log": [
+                {
+                    "timestamp": "2026-05-18T15:03:15.192879",
+                    "type": "combat_started",
+                    "event": "Combat started: New Combat Encounter"
+                },
+                {
+                    "timestamp": "2026-05-18T15:05:40.264907",
+                    "type": "damage_applied",
+                    "target_id": "245b8c0d-78fb-447f-8213-580d1b0a0be9",
+                    "target_name": "Thorin Ironbeard",
+                    "damage": 0,
+                    "old_hp": 12,
+                    "new_hp": 12,
+                    "reason": "Gobelin malingre misses attack against AC 16 with attack roll total 8.",
+                    "event": "Thorin Ironbeard takes 0 damage"
+                },
+                {
+                    "timestamp": "2026-05-18T15:05:51.906768",
+                    "type": "turn_advanced",
+                    "event": "Turn advanced to Thorin Ironbeard",
+                    "round": 1,
+                    "participant_id": "245b8c0d-78fb-447f-8213-580d1b0a0be9"
+                },
+                {
+                    "timestamp": "2026-05-18T15:07:58.435755",
+                    "type": "damage_applied",
+                    "target_id": "npc-gobelin-faible-001",
+                    "target_name": "Gobelin malingre",
+                    "damage": 7,
+                    "old_hp": 7,
+                    "new_hp": 0,
+                    "reason": "Thorin Ironbeard hits with a melee weapon attack. Attack roll total 23 vs AC 13.",
+                    "event": "Gobelin malingre takes 7 damage and is defeated",
+                    "defeated": true
+                },
+                {
+                    "timestamp": "2026-05-18T15:10:48.181473",
+                    "type": "combat_ended",
+                    "event": "Combat ended."
+                }
+            ],
+            "created_at": "2026-05-18T15:03:15.192879",
+            "updated_at": "2026-05-18T15:10:48.181473",
+            "ended_at": "2026-05-18T15:10:48.181473"
+        },
+        "2": {
+            "combat_id": "4fec2047-0ba1-4eb5-bd2a-487b57549be8",
+            "name": "New Combat Encounter",
+            "round": 2,
+            "turn_index": 1,
+            "status": "ended",
+            "participants": [
+                {
+                    "participant_id": "npc-bandit-lorne",
+                    "name": "Bandit Lorne",
+                    "type": "enemy",
+                    "armor_class": 12,
+                    "max_hp": 4,
+                    "current_hp": 0,
+                    "initiative": 20,
+                    "status_effects": []
+                },
+                {
+                    "participant_id": "7904c3ae-ff74-464d-918e-82c4e3a7ea52",
+                    "name": "Arnaud",
+                    "type": "player",
+                    "armor_class": 11,
+                    "max_hp": 8,
+                    "current_hp": 3,
+                    "initiative": 18,
+                    "status_effects": []
+                }
+            ],
+            "event_log": [
+                {
+                    "timestamp": "2026-05-18T16:25:44.461103",
+                    "type": "combat_started",
+                    "event": "Combat started: New Combat Encounter"
+                },
+                {
+                    "timestamp": "2026-05-18T16:27:00.766250",
+                    "type": "turn_advanced",
+                    "event": "Turn advanced to Arnaud",
+                    "round": 1,
+                    "participant_id": "7904c3ae-ff74-464d-918e-82c4e3a7ea52"
+                },
+                {
+                    "timestamp": "2026-05-18T16:31:33.460849",
+                    "type": "turn_advanced",
+                    "event": "Turn advanced to Bandit Lorne",
+                    "round": 2,
+                    "participant_id": "npc-bandit-lorne"
+                },
+                {
+                    "timestamp": "2026-05-18T16:34:10.781146",
+                    "type": "damage_applied",
+                    "target_id": "7904c3ae-ff74-464d-918e-82c4e3a7ea52",
+                    "target_name": "Arnaud",
+                    "damage": 5,
+                    "old_hp": 8,
+                    "new_hp": 3,
+                    "reason": "Bandit Lorne attack hit Arnaud (attack total 13 vs AC 11)",
+                    "event": "Arnaud takes 5 damage"
+                },
+                {
+                    "timestamp": "2026-05-18T16:34:10.781510",
+                    "type": "turn_advanced",
+                    "event": "Turn advanced to Arnaud",
+                    "round": 2,
+                    "participant_id": "7904c3ae-ff74-464d-918e-82c4e3a7ea52"
+                },
+                {
+                    "timestamp": "2026-05-18T16:35:44.492008",
+                    "type": "damage_applied",
+                    "target_id": "npc-bandit-lorne",
+                    "target_name": "Bandit Lorne",
+                    "damage": 9,
+                    "old_hp": 4,
+                    "new_hp": 0,
+                    "reason": "Arnaud Fire Bolt hit Bandit Lorne (attack total 24 vs AC 12) for 9 fire damage",
+                    "event": "Bandit Lorne takes 9 damage and is defeated",
+                    "defeated": true
+                },
+                {
+                    "timestamp": "2026-05-18T16:35:47.565378",
+                    "type": "combat_ended",
+                    "event": "Bandit Lorne was reduced to 0 HP by Arnaud's Fire Bolt and killed. Combat ended with the enemy defeated."
+                }
+            ],
+            "created_at": "2026-05-18T16:25:44.461103",
+            "updated_at": "2026-05-18T16:35:47.565378",
+            "ended_at": "2026-05-18T16:35:47.565378"
+        },
+        "3": {
+            "combat_id": "3c1da631-effe-4260-9808-e1c7acb1125b",
+            "name": "New Combat Encounter",
+            "round": 1,
+            "turn_index": 0,
+            "status": "active",
+            "participants": [
+                {
+                    "participant_id": "npc-brigand-001",
+                    "name": "Brigand des Collines",
+                    "type": "npc",
+                    "armor_class": 12,
+                    "max_hp": 9,
+                    "current_hp": 9,
+                    "initiative": 19,
+                    "status_effects": []
+                },
+                {
+                    "participant_id": "245b8c0d-78fb-447f-8213-580d1b0a0be9",
+                    "name": "Thorin Ironbeard",
+                    "type": "player",
+                    "armor_class": 16,
+                    "max_hp": 12,
+                    "current_hp": 7,
+                    "initiative": 3,
+                    "status_effects": []
+                }
+            ],
+            "event_log": [
+                {
+                    "timestamp": "2026-05-18T16:49:16.622004",
+                    "type": "combat_started",
+                    "event": "Combat started: New Combat Encounter"
+                },
+                {
+                    "timestamp": "2026-05-18T16:50:55.472419",
+                    "type": "damage_applied",
+                    "target_id": "245b8c0d-78fb-447f-8213-580d1b0a0be9",
+                    "target_name": "Thorin Ironbeard",
+                    "damage": 5,
+                    "old_hp": 12,
+                    "new_hp": 7,
+                    "reason": "D\u00e9g\u00e2ts appliqu\u00e9s \u00e0 Thorin Ironbeard",
+                    "event": "Thorin Ironbeard takes 5 damage"
+                }
+            ],
+            "created_at": "2026-05-18T16:49:16.622004",
+            "updated_at": "2026-05-18T16:50:55.472419"
+        },
+        "4": {
+            "combat_id": "a46bf3c5-bd4f-4ee7-bd6e-0d7c9c72b6a3",
+            "name": "New Combat Encounter",
+            "round": 4,
+            "turn_index": 0,
+            "status": "ended",
+            "participants": [
+                {
+                    "participant_id": "npc-brokk-temp",
+                    "name": "Brokk",
+                    "type": "npc",
+                    "armor_class": 16,
+                    "max_hp": 12,
+                    "current_hp": 12,
+                    "initiative": 20,
+                    "status_effects": []
+                },
+                {
+                    "participant_id": "245b8c0d-78fb-447f-8213-580d1b0a0be9",
+                    "name": "Thorin",
+                    "type": "player",
+                    "armor_class": 16,
+                    "max_hp": 12,
+                    "current_hp": 0,
+                    "initiative": 16,
+                    "status_effects": []
+                }
+            ],
+            "event_log": [
+                {
+                    "timestamp": "2026-05-18T17:07:08.800025",
+                    "type": "combat_started",
+                    "event": "Combat started: New Combat Encounter"
+                },
+                {
+                    "timestamp": "2026-05-18T17:09:23.018243",
+                    "type": "turn_advanced",
+                    "event": "Turn advanced to Thorin",
+                    "round": 1,
+                    "participant_id": "245b8c0d-78fb-447f-8213-580d1b0a0be9"
+                },
+                {
+                    "timestamp": "2026-05-18T17:11:26.153098",
+                    "type": "turn_advanced",
+                    "event": "Turn advanced to Brokk",
+                    "round": 2,
+                    "participant_id": "npc-brokk-temp"
+                },
+                {
+                    "timestamp": "2026-05-18T17:13:40.305332",
+                    "type": "turn_advanced",
+                    "event": "Turn advanced to Thorin",
+                    "round": 2,
+                    "participant_id": "245b8c0d-78fb-447f-8213-580d1b0a0be9"
+                },
+                {
+                    "timestamp": "2026-05-18T17:14:30.869657",
+                    "type": "turn_advanced",
+                    "event": "Turn advanced to Brokk",
+                    "round": 3,
+                    "participant_id": "npc-brokk-temp"
+                },
+                {
+                    "timestamp": "2026-05-18T17:17:11.172492",
+                    "type": "damage_applied",
+                    "target_id": "245b8c0d-78fb-447f-8213-580d1b0a0be9",
+                    "target_name": "Thorin",
+                    "damage": 5,
+                    "old_hp": 12,
+                    "new_hp": 7,
+                    "reason": "from Brokk",
+                    "event": "Thorin takes 5 damage"
+                },
+                {
+                    "timestamp": "2026-05-18T17:18:12.901448",
+                    "type": "turn_advanced",
+                    "event": "Turn advanced to Thorin",
+                    "round": 3,
+                    "participant_id": "245b8c0d-78fb-447f-8213-580d1b0a0be9"
+                },
+                {
+                    "timestamp": "2026-05-18T17:18:23.763699",
+                    "type": "turn_advanced",
+                    "event": "Turn advanced to Brokk",
+                    "round": 4,
+                    "participant_id": "npc-brokk-temp"
+                },
+                {
+                    "timestamp": "2026-05-18T17:19:49.979508",
+                    "type": "damage_applied",
+                    "target_id": "245b8c0d-78fb-447f-8213-580d1b0a0be9",
+                    "target_name": "Thorin",
+                    "damage": 8,
+                    "old_hp": 7,
+                    "new_hp": 0,
+                    "reason": "from Brokk",
+                    "event": "Thorin takes 8 damage and is defeated",
+                    "defeated": true
+                },
+                {
+                    "timestamp": "2026-05-18T17:20:46.674535",
+                    "type": "combat_ended",
+                    "event": "Thorin has been defeated by Brokk"
+                }
+            ],
+            "created_at": "2026-05-18T17:07:08.800025",
+            "updated_at": "2026-05-18T17:20:46.674535",
+            "ended_at": "2026-05-18T17:20:46.674535"
+        }
+    }
+}

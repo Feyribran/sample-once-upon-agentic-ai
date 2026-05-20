@@ -55,7 +55,7 @@ def get_messages():
 
 @app.get("/user/{user_name}")
 def get_user(user_name):
-    characters_db = TinyDB('./../character_agent/characters.json')
+    characters_db = TinyDB('./../../../5_a2a_integration/agents/character_agent/characters.json')
     Character_Query = Query()
     result = characters_db.search(Character_Query.name == user_name)
     if not result:
@@ -79,11 +79,13 @@ SYSTEM_PROMPT = """You are a D&D Game Master orchestrator with access to special
 Available agents:
 - Rules Agent, for D&D mechanics and rules
 - Character Agent, for character creation and management
+- Campaign Agent, for campaign and scene management
 
 To communicate with agents:
 1. Use a2a_list_discovered_agents to see available agents
 2. Use a2a_send_message with the agent's URL to send questions
 3. Use roll_dice for dice rolling
+4. Use character names from character agent to retrieve character ids for campaign and scene creations in campaign agent
 
 Available D&D dice types:
 - d4 (4-sided die) - Used for damage rolls of small weapons like daggers
@@ -104,12 +106,62 @@ class DiceOutput(BaseModel):
     result: str = Field(description="The dice result value")
     reason: str = Field(description="The reason the dice was rolled. Ex: attack roll")
 
-class StoryOutput(BaseModel):
+# class StoryOutput(BaseModel):
+#     """Model that contains information about a Person"""
+#     response: str = Field(description="Your narative response as Game Master")
+#     actions_suggestions: list[str] = Field(description="['Action 1', 'Action 2', 'Action 3']")
+#     details: str = Field(description="Brief summary of tools/agents used")
+#     dice_rolls: List[DiceOutput] = Field(default=[], description="List of dice rolls with dice_type, result, and reason")
+
+
+class CharacterStateOutput(BaseModel):
+    character_id: str = Field(description="Unique identifier of the character")
+    hp_delta: int = Field(description="Change in hit points, e.g. -3 or +5")
+    location: str = Field(description="Updated location of the character")
+    status_added: List[str] = Field(default=[], description="Statuses added to the character")
+
+class QuestStateOutput(BaseModel):
+    quest_id: str = Field(description="Unique identifier of the quest")
+    status: str = Field(description="Updated quest status, e.g. progressed, completed, failed")
+    note: str = Field(description="Narrative note about the quest update")
+
+class RelationshipStateOutput(BaseModel):
+    from_character_id: str = Field(description="Source character identifier")
+    to_character_id: str = Field(description="Target character identifier")
+    change: str = Field(description="Relationship change, e.g. trust +1")
+    reason: str = Field(description="Reason for the relationship change")
+
+class StateUpdatesOutput(BaseModel):
+    characters: List[CharacterStateOutput] = Field(
+        default=[],
+        description="List of characters state updates"
+    )
+    quests: List[QuestStateOutput] = Field(
+        default=[],
+        description="List of quest state updates"
+    )
+    relationships: List[RelationshipStateOutput] = Field(
+        default=[],
+        description="List of relationship updates"
+    )
+    timeline_event: str = Field(description="Summary of the timeline event")
+
+class ActiveSceneOutput(BaseModel):
+    scene_id: str = Field(description="Unique identifier of the active scene")
+    location: str = Field(description="Current scene location")
+    participants: List[str] = Field(description="Characters participating in the scene")
+    mode: str = Field(description="Scene mode, e.g. combat, exploration, dialogue")
+    summary: str = Field(description="A short summary of the scene")
+
+
+class MultiPlayerStoryOutput(BaseModel):
     """Model that contains information about a Person"""
     response: str = Field(description="Your narative response as Game Master")
     actions_suggestions: list[str] = Field(description="['Action 1', 'Action 2', 'Action 3']")
-    destails: str = Field(description="Brief summary of tools/agents used")
+    details: str = Field(description="Brief summary of tools/agents used")
     dice_rolls: List[DiceOutput] = Field(default=[], description="List of dice rolls with dice_type, result, and reason")
+    state_updates: StateUpdatesOutput = Field(description="Structured updates for characters, quests, relationships, and timeline")
+    active_scenes: List[ActiveSceneOutput] = Field(default=[], description="Information about the current active scenes")
 
 try:
     # TODO: Create the A2A client with the A2AClientToolProvider and pass the list of the known agent urls
@@ -117,6 +169,7 @@ try:
     A2A_AGENT_URLS = [
         "http://localhost:8001",
         "http://localhost:8000",
+        "http://localhost:8002",
     ]
 
     a2a_client = A2AClientToolProvider(known_agent_urls=A2A_AGENT_URLS)
@@ -130,7 +183,7 @@ try:
         model=model,
         tools=[mcp_client,a2a_client.tools],
         #TODO: Force the response to use the StoryOutput model
-        structured_output_model=StoryOutput
+        structured_output_model=CharacterStateOutput
     )
 
 except Exception as e:

@@ -3,6 +3,25 @@ import chromadb
 from strands import Agent, tool
 from strands.multiagent.a2a import A2AServer
 
+from strands.models.openai import OpenAIModel
+import logging
+
+
+logging.getLogger("strands").setLevel(logging.DEBUG)
+
+# Add a handler to see the logs
+logging.basicConfig(
+    format="%(levelname)s | %(name)s | %(message)s",
+    handlers=[logging.StreamHandler()]
+)
+
+model = OpenAIModel(
+    model_id="gpt-5.4",   # ou le nom de ton deployment Foundry
+    client_args={
+        "base_url": "https://rg-ava-poc-ia-foundry.cognitiveservices.azure.com/openai/v1/",
+        "api_key": "",
+    },
+)
 
 class RulesKnowledgeBase:
     """Fast knowledge base interface"""
@@ -78,6 +97,11 @@ agent = Agent(
     # - model: Optional
     # - tools: List containing the query_dnd_rules tool
     # - name: "Rules Agent"
+    model=model,
+    name="Rules Agent",
+    tools=[
+        query_dnd_rules
+    ],
     description= DESCRIPTION,
     system_prompt= SYSTEM_PROMPT
 )
@@ -85,8 +109,13 @@ agent = Agent(
 # TODO: Create an A2AServer instance with:
 # - agent: The agent instance created above
 # - port: 8000 (Rules Agent port)
-a2a_server = None
+# a2a_server = None
+a2a_server = A2AServer(
+    agent=agent,
+    port=8000
+)
 
 if __name__ == "__main__":
     # TODO: Start the A2A server
-    pass
+    # pass
+    a2a_server.serve()

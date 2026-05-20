@@ -7,6 +7,26 @@ from strands import Agent, tool
 from strands.multiagent.a2a import A2AServer
 from tinydb import TinyDB, Query
 
+from strands.models.openai import OpenAIModel
+import logging
+
+
+logging.getLogger("strands").setLevel(logging.INFO)
+
+# Add a handler to see the logs
+logging.basicConfig(
+    format="%(levelname)s | %(name)s | %(message)s",
+    handlers=[logging.StreamHandler()]
+)
+
+model = OpenAIModel(
+    model_id="gpt-5.4",   # ou le nom de ton deployment Foundry
+    client_args={
+        "base_url": "https://rg-ava-poc-ia-foundry.cognitiveservices.azure.com/openai/v1/",
+        "api_key": "",
+    },
+)
+
 @dataclass
 class Stats:
     strength: int
@@ -100,6 +120,7 @@ def create_character(
         race: D&D race (Human, Elf, etc.)
         gender: Character's gender
         stats_dict: Dictionary with strength, dexterity, constitution, intelligence, wisdom, charisma
+
     """
     # Generate unique character ID
     character_id = str(uuid.uuid4())
@@ -143,11 +164,36 @@ Creates new characters with proper ability score generation (4d6 drop lowest), m
 and provides character lookup services. Maintains complete character profiles including stats, inventory, and progression data for D&D campaigns.
 """
 
-SYSTEM_PROMPT="""
-You are a D&D character management specialist. When creating characters, always roll ability scores using the traditional 
-method: roll 4d6 and drop the lowest die for each of the six abilities (Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma). 
-Use the appropriate tools to create, find, or list characters as requested. Provide clear confirmations when characters are created and 
-helpful summaries when characters are found. Keep responses focused and include relevant character details like class, race, and key stats."
+# SYSTEM_PROMPT="""
+# You are a D&D character management specialist. When creating characters, always roll ability scores using the traditional 
+# method: roll 4d6 and drop the lowest die for each of the six abilities (Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma). 
+# Use the appropriate tools to create, find, or list characters as requested. Provide clear confirmations when characters are created and 
+# helpful summaries when characters are found. Keep responses focused and include relevant character details like class, race, and key stats."
+# """
+
+## SYSTEM PROMPT to be completed as it often forget to pass the weel shaped nddetailed stat_dicts required for character. Then the character is not correctly created and not registered in db.
+
+SYSTEM_PROMPT = """
+You are a D&D character management specialist.
+
+When creating a character, you MUST call the create_character tool.
+
+Before calling create_character, you MUST generate stats_dict yourself.
+Generate ability scores using the traditional method: for each ability, roll 4d6, drop the lowest die, and sum the remaining three dice.
+
+The create_character tool requires this exact stats_dict shape:
+
+{
+  "strength": int,
+  "dexterity": int,
+  "constitution": int,
+  "intelligence": int,
+  "wisdom": int,
+  "charisma": int
+}
+
+Never call create_character without stats_dict.
+Do not ask the user for stats unless they explicitly want to provide them.
 """
 
 agent = Agent(
@@ -155,6 +201,13 @@ agent = Agent(
     # - model: optional
     # - tools: List the tools
     # - name: "Character Creator Agent"
+    model=model,
+    tools=[
+        find_character_by_name,
+        list_all_characters,
+        create_character
+    ],
+    name="Character Creator Agent",
     description= DESCRIPTION,
     system_prompt= SYSTEM_PROMPT
 )
@@ -162,8 +215,13 @@ agent = Agent(
 # TODO: Create an A2AServer instance with:
 # - agent: The agent instance created above
 # - port: 8001 (Character Agent port)
-a2a_server = None
+# a2a_server = None
+a2a_server = A2AServer(
+    agent=agent,
+    port=8001
+)
 
 if __name__ == "__main__":
     # TODO: Start the A2A server
-    pass
+    # pass
+    a2a_server.serve()
