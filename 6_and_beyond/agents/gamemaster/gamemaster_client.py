@@ -1,9 +1,7 @@
 import requests
 import json
 
-
 GAME_MASTER_URL = "http://127.0.0.1:8009/inquire"
-
 
 def ask_gamemaster(question: str) -> dict:
     payload = {
@@ -18,7 +16,6 @@ def ask_gamemaster(question: str) -> dict:
 
     response.raise_for_status()
     return response.json()
-
 
 def pretty_print_response(data: dict) -> None:
     print("\n--- GameMaster response ---")
@@ -35,7 +32,6 @@ def pretty_print_response(data: dict) -> None:
         print(json.dumps(parsed, indent=2, ensure_ascii=False))
     except Exception:
         print(raw_response)
-
 
 def main():
     print("🎲 GameMaster Client")
